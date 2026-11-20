@@ -1,0 +1,22 @@
+{% load ui %}
+<div class="ps-card premium-card{% if popular %} ps-popular{% endif %}" style="padding:2.5rem 2rem;display:flex;flex-direction:column;gap:1.5rem;position:relative{% if popular %} border:0.0625rem solid var(--primary-red); box-shadow:0 0 2rem var(--accent-glow){% endif %};">
+    {% if popular %}
+    <div class="ps-popular-badge">MOST POPULAR</div>
+    {% endif %}
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+        <div style="width:2.5rem;height:2.5rem;border-radius:0.625rem;background:rgba(255,59,48,0.1);color:var(--primary-red);display:flex;align-items:center;justify-content:center;font-size:1.25rem">
+            {% icon icon_name 20 %}
+        </div>
+        <h3 style="font-size:1.25rem;font-weight:800;color:var(--text-dark);margin:0">{{ plan }}</h3>
+    </div>
+    <p style="color:var(--text-muted);font-size:0.9375rem;line-height:1.6;margin:0">{{ desc }}</p>
+    <ul style="color:var(--text-muted);font-size:0.875rem;line-height:1.8;display:grid;gap:0.625rem;margin:0;padding:0;list-style:none;flex:1">
+        {% for item in items %}
+        <li style="display:flex;align-items:flex-start;gap:0.5rem">
+            <span style="color:#34C759;font-size:0.75rem;line-height:1.5">✓</span>
+            <span>{{ item }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'contact' %}" class="btn{% if popular %} btn-primary{% else %} btn-dark{% endif %} btn-sm" style="width:100%;text-decoration:none;display:flex;align-items:center;justify-content:center">REQUEST QUOTE</a>
+</div>

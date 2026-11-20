@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+<header class="public-header" id="publicHeader">
+    <div class="header-inner">
+        <div class="logo" onclick="location.href='/'">
+            <span style="color:var(--primary-red)">FLIGHT</span> CADENCE
+            <span style="font-size:0.75rem;padding:0.125rem 0.5rem;background-color:var(--primary-red);color:white;border-radius:0.25rem;margin-left:0.5rem;font-family:var(--font-main);letter-spacing:0.0625rem">APP</span>
+        </div>
+
+        <nav class="desktop-nav hide-on-mobile">
+            <div class="nav-links">
+                {% url 'landing' as home_url %}
+                {% url 'trip_support' as ts_url %}
+                {% url 'pricing' as pr_url %}
+                {% url 'about' as ab_url %}
+                {% url 'contact' as co_url %}
+                <a href="{{ home_url }}" class="{% if request.resolver_match.url_name == 'landing' %}active{% endif %}">Home</a>
+                <a href="{{ ts_url }}" class="{% if request.resolver_match.url_name == 'trip_support' %}active{% endif %}">Trip Support</a>
+                <a href="{{ pr_url }}" class="{% if request.resolver_match.url_name == 'pricing' %}active{% endif %}">Pricing</a>
+                <a href="{{ ab_url }}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About Us</a>
+                <a href="{{ co_url }}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact Us</a>
+            </div>
+            <div class="divider"></div>
+            <div class="header-right">
+                <div class="clocks">
+                    <div class="clock">
+                        <svg class="icon icon-clock" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        <span id="utcTime">00:00:00</span>
+                        <span class="label">UTC</span>
+                    </div>
+                    <div class="clock">
+                        <svg class="icon icon-clock" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4dabf7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        <span id="istTime">00:00:00</span>
+                        <span class="label">IST</span>
+                    </div>
+                </div>
+                <button class="icon-btn theme-toggle" id="themeBtn" title="Toggle Dark/Light Theme" aria-label="Toggle Theme">
+                    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                </button>
+                <a href="{% url 'login' %}" class="btn btn-primary btn-sm"><svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" x2="3" y1="12" y2="12"></line></svg> LOGIN</a>
+            </div>
+        </nav>
+
+        <button class="mobile-menu-btn show-on-mobile" id="mobileMenuBtn" title="Menu" aria-label="Menu">
+            <svg class="icon icon-menu" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
+        </button>
+    </div>
+
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="drawer-header">
+            <span class="drawer-title">MENU</span>
+            <button class="icon-btn close-drawer" id="closeDrawer" title="Close" aria-label="Close">
+                <svg class="icon icon-x" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+            </button>
+        </div>
+        <nav class="drawer-nav">
+            {% url 'landing' as home_url %}
+            {% url 'trip_support' as ts_url %}
+            {% url 'pricing' as pr_url %}
+            {% url 'about' as ab_url %}
+            {% url 'contact' as co_url %}
+            <a href="{{ home_url }}" class="{% if request.resolver_match.url_name == 'landing' %}active{% endif %}">Home</a>
+            <a href="{{ ts_url }}" class="{% if request.resolver_match.url_name == 'trip_support' %}active{% endif %}">Trip Support</a>
+            <a href="{{ pr_url }}" class="{% if request.resolver_match.url_name == 'pricing' %}active{% endif %}">Pricing</a>
+            <a href="{{ ab_url }}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About Us</a>
+            <a href="{{ co_url }}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact Us</a>
+        </nav>
+        <div class="drawer-footer">
+            <div class="clocks-drawer">
+                <div class="clock"><svg class="icon icon-clock" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg><span id="utcTimeD">00:00:00</span> UTC</div>
+                <div class="clock"><svg class="icon icon-clock" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4dabf7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg><span id="istTimeD">00:00:00</span> IST</div>
+            </div>
+            <div class="theme-row">
+                <span>Theme</span>
+                <button class="icon-btn theme-toggle" id="themeBtnDrawer" title="Toggle Theme" aria-label="Toggle Theme">
+                    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                </button>
+            </div>
+            <a href="{% url 'login' %}" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;"><svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" x2="3" y1="12" y2="12"></line></svg> SIGN IN</a>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block footer %}
+<footer class="public-footer">
+    <div class="footer-grid">
+        <div class="footer-col">
+            <div class="footer-logo"><span style="color:var(--primary-red)">FLIGHT</span> CADENCE <span style="font-weight:300;font-size:0.875rem">APP</span></div>
+            <p class="footer-desc">The primary choice for over 500+ Indian operators. Patented technology focusing on safety, efficiency, and real-time aviation intelligence.</p>
+            <div class="footer-social">
+                <a href="#" class="icon-link" aria-label="Twitter"><svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
+                <a href="#" class="icon-link" aria-label="LinkedIn"><svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+                <a href="#" class="icon-link" aria-label="Instagram"><svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="3" ry="3"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h5>OPERATIONS</h5>
+            <ul class="footer-list">
+                <li><a href="{% url 'trip_support' %}">Flight Planning</a></li>
+                <li><a href="{% url 'trip_support' %}">Permit Approvals</a></li>
+                <li><a href="{% url 'trip_support' %}">Aviation Fueling</a></li>
+                <li><a href="{% url 'trip_support' %}">Ground Handling</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h5>NAVIGATION</h5>
+            <ul class="footer-list">
+                <li><a href="{% url 'landing' %}">Home</a></li>
+                <li><a href="{% url 'trip_support' %}">Trip Support</a></li>
+                <li><a href="{% url 'pricing' %}">Subscription Pricing</a></li>
+                <li><a href="{% url 'about' %}">About Us</a></li>
+                <li><a href="{% url 'contact' %}">Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h5>SECURITY</h5>
+            <ul class="footer-list">
+                <li><a href="{% url 'about' %}">Safety Compliance</a></li>
+                <li><a href="{% url 'about' %}">DGCA Integration</a></li>
+                <li><a href="{% url 'about' %}">Data Protection</a></li>
+                <li><a href="{% url 'login' %}">Portal Access</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div>&copy; 2026 FLIGHT CADENCE PVT LTD. All rights reserved. Registered with DGCA India.</div>
+        <div class="footer-bottom-links">
+            <a href="{% url 'about' %}">Privacy Policy</a>
+            <a href="{% url 'about' %}">Terms of Service</a>
+            <a href="{% url 'about' %}">Security Policy</a>
+        </div>
+    </div>
+</footer>
+{% endblock %}

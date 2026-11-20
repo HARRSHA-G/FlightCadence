@@ -1,0 +1,79 @@
+{% extends "public_base.html" %}
+
+{% block title %}FLIGHT CADENCE | Aviation Intelligence{% endblock %}
+
+{% block content %}
+<div class="landing page">
+    <div class="landing-glow"></div>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-copy">
+                <div class="hero-kicker">
+                    <span class="badge">BATTLE TESTED SINCE 2017</span>
+                    <span style="color:var(--text-muted);font-size:0.875rem">#1 IN INDIA</span>
+                </div>
+                <h1>Aviation Intelligence<br><span class="gradient-text neon-text">Without Boundaries.</span></h1>
+                <p class="hero-desc">Streamline your entire mission lifecycle. From digital ATC plan filings to 24/7 on-ground trip support, FLIGHT CADENCE is the cockpit-ready OS for modern operators.</p>
+                <div class="hero-actions">
+                    <a href="{% url 'login' %}" class="btn btn-primary btn-lg">START PLANNING <svg class="icon icon-arrow-right" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+                    <a href="https://www.youtube.com/@premeflight3833" target="_blank" rel="noopener noreferrer" class="btn btn-dark btn-lg"><svg class="icon icon-play" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> WATCH DEMO</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="premium-card premium-card-glow" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+                    <img src="https://img.icons8.com/color/480/rocket--v1.png" alt="Modern Aviation" style="width:70%;filter:drop-shadow(0 0 3rem var(--accent-glow))">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="trip-planning">
+        <div class="container">
+            <div class="two-col">
+                <div class="col">
+                    <h2>Trip Planning<br><span style="color:var(--primary-red)">Made Easy.</span></h2>
+                    <div class="text-muted" style="line-height:1.8;display:grid;gap:1.25rem;">
+                        <p>With a vision to provide Simple, Fast & Cost-Saving Trip Support Service for Business Aviation in India, FLIGHT CADENCE has launched the 1st patented one-stop solution that allows a Pilot to easily plan, log & fly more safely.</p>
+                        <p>Now using a Laptop, Tablet or Smart Phone, access our cloud hosted website, iOS & Android APP 24x7. Easily perform calculations that give precise Fuel Burn based on latest forecasted winds within seconds plus file ATC Plan online & receive FIC-ADC via SMS to any airport in India!!</p>
+                        <p style="font-weight:700;color:var(--text-main)">Sign up for FREE 30 Day trial and experience simplified trip support services and start saving today.</p>
+                        <div class="hero-actions" style="margin-top:1rem;gap:1rem;">
+                            <a href="{% url 'about' %}" class="btn btn-dark btn-sm" style="width:fit-content;">Read More <svg class="icon icon-arrow-right" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+                            <a href="https://www.youtube.com/@premeflight3833" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" style="background:#FF0000;width:fit-content;"><svg class="icon icon-youtube" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"></path><path d="m10 15 5-3-5-3z"></path></svg> Watch on YouTube</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
+                    <a href="https://www.youtube.com/watch?v=J5OpH-D9IfU" target="_blank" rel="noopener noreferrer" class="premium-card" style="padding:1.875rem;text-align:center;text-decoration:none;color:inherit;display:block;">
+                        <svg class="icon icon-youtube" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:1.25rem;"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"></path><path d="m10 15 5-3-5-3z"></path></svg>
+                        <h4 style="font-weight:800;font-size:0.875rem;line-height:1.4">INDIA'S #1 FLIGHT PLANNING COMPANY</h4>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=Rw8l1wAI5Pw" target="_blank" rel="noopener noreferrer" class="premium-card" style="padding:1.875rem;text-align:center;text-decoration:none;color:inherit;display:block;">
+                        <svg class="icon icon-youtube" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:1.25rem;"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"></path><path d="m10 15 5-3-5-3z"></path></svg>
+                        <h4 style="font-weight:800;font-size:0.875rem;line-height:1.4">TRIP SUPPORT</h4>
+                    </a>
+                    <div class="premium-card" style="grid-column:span 2;padding:1.875rem;text-align:center;background:rgba(255,59,48,0.05);border:0.0625rem solid rgba(255,59,48,0.2);">
+                        <svg class="icon icon-check-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary-red);margin-bottom:0.9375rem;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="9 11 12 14 22 4"></polyline></svg>
+                        <p style="font-size:0.9375rem;font-weight:600">DGCA Approved Load Trim Formats Included</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-choose">
+        <div class="container">
+            <div class="section-head" style="text-align:center;margin-bottom:5rem;">
+                <h2>Why Choose <span class="gradient-text">FLIGHT CADENCE.</span></h2>
+                <p style="color:var(--text-muted);font-size:1.125rem">Trusted by 40+ Business Aviation operators in India.</p>
+            </div>
+            <div class="reasons-grid">
+                {% include "partials/reason_card.html" with title="Plan & Fly Safe" desc="Fast, intuitive, web-based tool that assesses weather conditions, generates flight routes and files flight plans online from any internet connected device to all Airports in India within seconds." icon_name="shield" %}
+                {% include "partials/reason_card.html" with title="Made for India" desc="Feedback from Pilots who wish to see an Indian company offer solution customised to varied Indian region needs. Experience India's 1st iOS & Android APP exclusive for business aviation pilots." icon_name="indian-rupee" %}
+                {% include "partials/reason_card.html" with title="Cost Savings" desc="Unlike Global Companies, we tailor make service cost thereby giving at least 50% savings plus billing in Indian Rupee. Start saving from the very next flight." icon_name="zap" %}
+                {% include "partials/reason_card.html" with title="24 x 7 Support" desc="Our Support Team consists of FAA certified dispatchers & CPL holders, who are just a Phone call away anytime of the day to help you process plans, file & obtain clearance numbers." icon_name="headphones" %}
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

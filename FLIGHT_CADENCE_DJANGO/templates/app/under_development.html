@@ -1,0 +1,71 @@
+{% extends "app_base.html" %}
+
+{% block title %}{{ module_title|default:"Under Development" }} | FLIGHT CADENCE{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <!-- Breadcrumb / Header -->
+    <div style="margin-bottom:1.75rem;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;">
+        <div>
+            <div style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(235, 59, 47, 0.08);color:var(--primary-red);border:1px solid rgba(235, 59, 47, 0.2);border-radius:2rem;padding:0.25rem 0.75rem;font-size:0.75rem;font-weight:700;margin-bottom:0.5rem;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                LOCKED MODULE
+            </div>
+            <h2 style="font-size:1.5rem;font-weight:900;color:var(--text-dark);margin:0 0 0.35rem 0;">
+                {{ module_title|default:"Module" }}
+            </h2>
+            <p style="color:var(--dash-muted);margin:0;font-size:0.875rem;">
+                {{ module_description|default:"This feature is currently locked and under development." }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Centered Under Development Card -->
+    <div style="background:var(--dash-card-bg);border:1px solid var(--dash-border);border-radius:1rem;padding:3.5rem 2rem;text-align:center;box-shadow:var(--dash-shadow-soft);max-width:44rem;margin:1.5rem auto;">
+        <!-- Lock Icon Badge -->
+        <div style="width:5rem;height:5rem;border-radius:50%;background:rgba(235, 59, 47, 0.08);border:2px dashed rgba(235, 59, 47, 0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem auto;color:var(--primary-red);">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+        </div>
+
+        <span style="display:inline-block;background:rgba(235, 59, 47, 0.1);color:var(--primary-red);font-weight:800;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.35rem 0.85rem;border-radius:2rem;margin-bottom:1rem;">
+            Under Development
+        </span>
+
+        <h3 style="font-size:1.5rem;font-weight:800;color:var(--text-dark);margin:0 0 0.75rem 0;">
+            {{ module_title|default:"Feature" }} is Under Development
+        </h3>
+
+        <p style="color:var(--dash-muted);font-size:0.9375rem;line-height:1.6;max-width:32rem;margin:0 auto 2rem auto;">
+            This module is currently locked and scheduled for the upcoming development release. Our team is working on completing the flight planning, telemetry, and document engine integrations.
+        </p>
+
+        <!-- Development Status Box -->
+        <div style="background:var(--dash-input-bg);border:1px solid var(--dash-border);border-radius:0.75rem;padding:1.25rem 1.5rem;max-width:30rem;margin:0 auto 2rem auto;text-align:left;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;font-size:0.8125rem;">
+                <span style="color:var(--dash-muted);font-weight:600;">Module Status</span>
+                <span style="color:#d97706;font-weight:700;display:inline-flex;align-items:center;gap:0.35rem;">
+                    <span style="width:0.5rem;height:0.5rem;border-radius:50%;background:#f59e0b;display:inline-block;"></span> In Progress (Locked)
+                </span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem;">
+                <span style="color:var(--dash-muted);font-weight:600;">Active Working Modules</span>
+                <span style="color:var(--text-dark);font-weight:700;">Airport, Aircraft, Pilot, Call Signs, Online FPL</span>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;">
+            <a href="{% url 'airport_management' %}" class="btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;font-size:0.875rem;border-radius:0.5rem;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+                Go to Active Modules
+            </a>
+            <a href="{% url 'dashboard' %}" class="btn-secondary" style="text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;font-size:0.875rem;border-radius:0.5rem;background:var(--dash-input-bg);color:var(--text-dark);border:1px solid var(--dash-border);">
+                Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

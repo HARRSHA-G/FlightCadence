@@ -1,0 +1,210 @@
+{% extends "app_base.html" %}
+
+{% block title %}Dashboard | FLIGHT CADENCE{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <div style="margin-bottom:1.875rem;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;">
+        <div>
+            <h2 style="font-size:1.75rem;font-weight:900;color:var(--text-dark);margin-bottom:0.5rem;">
+                Dashboard
+            </h2>
+            <p style="color:var(--dash-muted);margin:0;font-size:0.9375rem;">
+                High-level overview of total users, submitted plans, and operational health.
+            </p>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.5rem;color:var(--dash-muted);font-size:0.875rem;font-weight:bold;">
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span>Live Updates &bull; Today</span>
+        </div>
+    </div>
+
+    <!-- Strategic KPI Stat Cards -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(15rem, 1fr));gap:1.25rem;margin-bottom:2.5rem;">
+        <!-- Card 1 -->
+        <div class="premium-card" style="padding:1.5rem;display:flex;flex-direction:column;gap:0.9375rem;background-color:var(--dash-card-bg);border:var(--dash-border);box-shadow:var(--dash-shadow-soft);border-radius:1rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div style="width:3rem;height:3rem;border-radius:0.75rem;background-color:rgba(0, 122, 255, 0.12);color:var(--primary-blue);display:flex;align-items:center;justify-content:center;">
+                    <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                </div>
+                <span style="font-size:0.6875rem;font-weight:bold;color:var(--dash-muted);background-color:var(--dash-input-bg);border:var(--dash-border);padding:0.25rem 0.5rem;border-radius:1.25rem;">
+                    +1 this week
+                </span>
+            </div>
+            <div>
+                <p style="font-size:0.75rem;color:var(--dash-muted);font-weight:800;text-transform:uppercase;margin-bottom:0.375rem;letter-spacing:0.05rem;">Total Active Users</p>
+                <p style="font-size:2rem;font-weight:900;margin:0;color:var(--text-dark);">4</p>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="premium-card" style="padding:1.5rem;display:flex;flex-direction:column;gap:0.9375rem;background-color:var(--dash-card-bg);border:var(--dash-border);box-shadow:var(--dash-shadow-soft);border-radius:1rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div style="width:3rem;height:3rem;border-radius:0.75rem;background-color:rgba(16, 185, 129, 0.12);color:#10B981;display:flex;align-items:center;justify-content:center;">
+                    <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                </div>
+                <span style="font-size:0.6875rem;font-weight:bold;color:var(--dash-muted);background-color:var(--dash-input-bg);border:var(--dash-border);padding:0.25rem 0.5rem;border-radius:1.25rem;">
+                    +12 today
+                </span>
+            </div>
+            <div>
+                <p style="font-size:0.75rem;color:var(--dash-muted);font-weight:800;text-transform:uppercase;margin-bottom:0.375rem;letter-spacing:0.05rem;">Total Flight Plans Filed</p>
+                <p style="font-size:2rem;font-weight:900;margin:0;color:var(--text-dark);">480</p>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="premium-card" style="padding:1.5rem;display:flex;flex-direction:column;gap:0.9375rem;background-color:var(--dash-card-bg);border:var(--dash-border);box-shadow:var(--dash-shadow-soft);border-radius:1rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div style="width:3rem;height:3rem;border-radius:0.75rem;background-color:rgba(245, 158, 11, 0.12);color:#F59E0B;display:flex;align-items:center;justify-content:center;">
+                    <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                </div>
+                <span style="font-size:0.6875rem;font-weight:bold;color:var(--dash-muted);background-color:var(--dash-input-bg);border:var(--dash-border);padding:0.25rem 0.5rem;border-radius:1.25rem;">
+                    98% completion
+                </span>
+            </div>
+            <div>
+                <p style="font-size:0.75rem;color:var(--dash-muted);font-weight:800;text-transform:uppercase;margin-bottom:0.375rem;letter-spacing:0.05rem;">Completed Briefings</p>
+                <p style="font-size:2rem;font-weight:900;margin:0;color:var(--text-dark);">156</p>
+            </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="premium-card" style="padding:1.5rem;display:flex;flex-direction:column;gap:0.9375rem;background-color:var(--dash-card-bg);border:var(--dash-border);box-shadow:var(--dash-shadow-soft);border-radius:1rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div style="width:3rem;height:3rem;border-radius:0.75rem;background-color:rgba(255, 59, 48, 0.12);color:var(--primary-red);display:flex;align-items:center;justify-content:center;">
+                    <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                </div>
+                <span style="font-size:0.6875rem;font-weight:bold;color:var(--dash-muted);background-color:var(--dash-input-bg);border:var(--dash-border);padding:0.25rem 0.5rem;border-radius:1.25rem;">
+                    Optimal
+                </span>
+            </div>
+            <div>
+                <p style="font-size:0.75rem;color:var(--dash-muted);font-weight:800;text-transform:uppercase;margin-bottom:0.375rem;letter-spacing:0.05rem;">System Efficiency</p>
+                <p style="font-size:2rem;font-weight:900;margin:0;color:var(--text-dark);">99.9%</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2 Column Section: User Performance + Operational Health -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(22rem, 1fr));gap:1.5rem;">
+        <!-- Top Performing Users -->
+        <div class="premium-card" style="padding:0;overflow:hidden;background-color:var(--dash-card-bg);border:var(--dash-border);border-radius:1rem;box-shadow:var(--dash-shadow-soft);">
+            <div style="padding:1.25rem 1.5rem;border-bottom:var(--dash-border);display:flex;justify-content:space-between;align-items:center;">
+                <h3 style="font-size:1rem;font-weight:800;margin:0;color:var(--text-dark);">Top Performing Crew</h3>
+                {% if auth_role == 'admin' %}
+                <a href="{% url 'users_management' %}" style="color:var(--primary-red);font-size:0.8125rem;font-weight:bold;text-decoration:none;">View All Directory &rarr;</a>
+                {% endif %}
+            </div>
+            
+            <div style="overflow-x:auto;">
+                <table style="width:100%;border-collapse:collapse;text-align:left;min-width:28rem;">
+                    <thead style="background-color:var(--dash-input-bg);">
+                        <tr>
+                            <th style="padding:0.75rem 1.5rem;font-size:0.6875rem;color:var(--dash-muted);font-weight:bold;text-transform:uppercase;letter-spacing:0.05rem;">Crew Member</th>
+                            <th style="padding:0.75rem 1.5rem;font-size:0.6875rem;color:var(--dash-muted);font-weight:bold;text-transform:uppercase;letter-spacing:0.05rem;">Total Plans</th>
+                            <th style="padding:0.75rem 1.5rem;font-size:0.6875rem;color:var(--dash-muted);font-weight:bold;text-transform:uppercase;letter-spacing:0.05rem;">Latest Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom:var(--dash-border);">
+                            <td style="padding:1rem 1.5rem;">
+                                <div style="display:flex;align-items:center;gap:0.75rem;">
+                                    <div style="width:2rem;height:2rem;border-radius:50%;background-color:rgba(0, 122, 255, 0.12);color:var(--primary-blue);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:bold;">J</div>
+                                    <span style="font-weight:bold;font-size:0.875rem;color:var(--text-dark);">John Doe</span>
+                                </div>
+                            </td>
+                            <td style="padding:1rem 1.5rem;">
+                                <div style="display:flex;align-items:center;gap:0.5rem;">
+                                    <div style="flex:1;height:0.25rem;background-color:var(--dash-input-bg);border-radius:0.125rem;overflow:hidden;min-width:3.75rem;">
+                                        <div style="width:47%;height:100%;background-color:#10B981;"></div>
+                                    </div>
+                                    <span style="font-size:0.8125rem;font-weight:bold;color:#10B981;">142</span>
+                                </div>
+                            </td>
+                            <td style="padding:1rem 1.5rem;">
+                                <div style="font-size:0.8125rem;color:var(--text-dark);font-weight:600;">Filed FPL for DEL-BOM</div>
+                                <div style="font-size:0.6875rem;color:var(--dash-muted);">10 mins ago</div>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom:var(--dash-border);">
+                            <td style="padding:1rem 1.5rem;">
+                                <div style="display:flex;align-items:center;gap:0.75rem;">
+                                    <div style="width:2rem;height:2rem;border-radius:50%;background-color:rgba(16, 185, 129, 0.12);color:#10B981;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:bold;">M</div>
+                                    <span style="font-weight:bold;font-size:0.875rem;color:var(--text-dark);">Mike Johnson</span>
+                                </div>
+                            </td>
+                            <td style="padding:1rem 1.5rem;">
+                                <div style="display:flex;align-items:center;gap:0.5rem;">
+                                    <div style="flex:1;height:0.25rem;background-color:var(--dash-input-bg);border-radius:0.125rem;overflow:hidden;min-width:3.75rem;">
+                                        <div style="width:71%;height:100%;background-color:#10B981;"></div>
+                                    </div>
+                                    <span style="font-size:0.8125rem;font-weight:bold;color:#10B981;">215</span>
+                                </div>
+                            </td>
+                            <td style="padding:1rem 1.5rem;">
+                                <div style="font-size:0.8125rem;color:var(--text-dark);font-weight:600;">Checked NOTAMs for DXB</div>
+                                <div style="font-size:0.6875rem;color:var(--dash-muted);">2 hours ago</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding:1rem 1.5rem;">
+                                <div style="display:flex;align-items:center;gap:0.75rem;">
+                                    <div style="width:2rem;height:2rem;border-radius:50%;background-color:rgba(245, 158, 11, 0.12);color:#F59E0B;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:bold;">S</div>
+                                    <span style="font-weight:bold;font-size:0.875rem;color:var(--text-dark);">Sarah Smith</span>
+                                </div>
+                            </td>
+                            <td style="padding:1rem 1.5rem;">
+                                <div style="display:flex;align-items:center;gap:0.5rem;">
+                                    <div style="flex:1;height:0.25rem;background-color:var(--dash-input-bg);border-radius:0.125rem;overflow:hidden;min-width:3.75rem;">
+                                        <div style="width:30%;height:100%;background-color:#10B981;"></div>
+                                    </div>
+                                    <span style="font-size:0.8125rem;font-weight:bold;color:#10B981;">89</span>
+                                </div>
+                            </td>
+                            <td style="padding:1rem 1.5rem;">
+                                <div style="font-size:0.8125rem;color:var(--text-dark);font-weight:600;">Updated Load &amp; Trim</div>
+                                <div style="font-size:0.6875rem;color:var(--dash-muted);">4 hours ago</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Operational Health Card -->
+        <div class="premium-card" style="padding:1.5rem;background-color:var(--dash-card-bg);border:var(--dash-border);border-radius:1rem;box-shadow:var(--dash-shadow-soft);display:flex;flex-direction:column;gap:1.25rem;">
+            <div style="border-bottom:var(--dash-border);padding-bottom:0.75rem;">
+                <h3 style="font-size:1rem;font-weight:800;margin:0 0 0.25rem;color:var(--text-dark);">Network Infrastructure</h3>
+                <p style="font-size:0.75rem;color:var(--dash-muted);margin:0;">Live telemetry from ATC &amp; Meteorological links.</p>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:1rem;">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:0.75rem 1rem;background-color:var(--dash-input-bg);border-radius:0.5rem;border:var(--dash-border);">
+                    <div style="display:flex;align-items:center;gap:0.75rem;">
+                        <span style="width:0.625rem;height:0.625rem;border-radius:50%;background-color:#10B981;box-shadow:0 0 0.5rem #10B981;"></span>
+                        <span style="font-size:0.875rem;font-weight:700;color:var(--text-dark);">ATC Server Link</span>
+                    </div>
+                    <span style="font-size:0.75rem;color:#10B981;font-weight:800;">Healthy</span>
+                </div>
+
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:0.75rem 1rem;background-color:var(--dash-input-bg);border-radius:0.5rem;border:var(--dash-border);">
+                    <div style="display:flex;align-items:center;gap:0.75rem;">
+                        <span style="width:0.625rem;height:0.625rem;border-radius:50%;background-color:#F59E0B;box-shadow:0 0 0.5rem #F59E0B;"></span>
+                        <span style="font-size:0.875rem;font-weight:700;color:var(--text-dark);">DGCA Gateway</span>
+                    </div>
+                    <span style="font-size:0.75rem;color:#F59E0B;font-weight:800;">Syncing</span>
+                </div>
+
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:0.75rem 1rem;background-color:var(--dash-input-bg);border-radius:0.5rem;border:var(--dash-border);">
+                    <div style="display:flex;align-items:center;gap:0.75rem;">
+                        <span style="width:0.625rem;height:0.625rem;border-radius:50%;background-color:#10B981;box-shadow:0 0 0.5rem #10B981;"></span>
+                        <span style="font-size:0.875rem;font-weight:700;color:var(--text-dark);">Weather Radar Uplink</span>
+                    </div>
+                    <span style="font-size:0.75rem;color:#10B981;font-weight:800;">Active</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

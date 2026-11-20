@@ -1,0 +1,442 @@
+{% extends "app_base.html" %}
+{% load static %}
+
+{% block title %}Document Editor | FLIGHT CADENCE{% endblock %}
+
+{% block extra_head %}
+<script src="{% static 'vendor/mammoth.browser.min.js' %}"></script>
+<script src="{% static 'vendor/html2pdf.bundle.min.js' %}"></script>
+<script src="{% static 'vendor/tinymce/tinymce.min.js' %}"></script>
+<style>
+.tox-tinymce {
+    border: none !important;
+    border-radius: 0 0 0.5rem 0.5rem !important;
+}
+.tox .tox-toolbar-overlord {
+    border-bottom: 0.0625rem solid var(--dash-divider) !important;
+}
+.tox-notifications-container, .tox-throbber__placeholder {
+    display: none !important;
+}
+@media screen and (max-width: 992px) {
+    .editor-layout-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <div style="margin-bottom:1.875rem;">
+        <h2 style="font-size:1.5rem;font-weight:900;color:var(--text-dark);margin-bottom:0.5rem;">
+            Document Editor
+        </h2>
+        <p style="color:var(--dash-muted);margin:0;font-size:0.875rem;line-height:1.5;">
+            Upload a <b>Word Document (.docx)</b> or <b>PDF (.pdf)</b> to extract its text, edit it seamlessly, and instantly export it to PDF. For best formatting retention, use .docx files.
+        </p>
+    </div>
+
+    <div class="editor-layout-grid" style="display:grid;grid-template-columns:minmax(18.75rem, 1fr) 3fr;gap:1.25rem;">
+        <!-- Left Panel: Tool Cards -->
+        <div style="display:flex;flex-direction:column;gap:1.25rem;">
+            <!-- Card 1: PDF to Word -->
+            <div style="background-color:var(--dash-card-bg);border-radius:0.5rem;padding:1.25rem;border:var(--dash-border);box-shadow:var(--dash-shadow-soft);">
+                <div style="border-bottom:0.0625rem solid var(--dash-divider);padding-bottom:0.875rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;">
+                    <div style="display:flex;align-items:center;gap:0.5rem;font-weight:900;color:var(--text-dark);font-size:0.875rem;">
+                        <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary-blue)"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        1. PDF TO WORD
+                    </div>
+                    <button type="button" onclick="docEditor.refreshPdfToWord()" style="background:none;border:none;cursor:pointer;color:var(--dash-muted);" title="Refresh section">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                    </button>
+                </div>
+                <p style="font-size:0.75rem;color:var(--dash-muted);margin-bottom:0.75rem;line-height:1.4;">
+                    Select a <b>PDF</b> file to instantly generate an editable <b>Word Document</b> (.doc) that preserves basic text blocks for the editor.
+                </p>
+                <input
+                    type="file"
+                    id="preConvertInput"
+                    accept=".pdf,application/pdf"
+                    class="input"
+                    style="margin-bottom:0.75rem;cursor:pointer;"
+                    onchange="docEditor.handlePreConvertUpload(event)"
+                />
+                <button
+                    type="button"
+                    id="convertWordBtn"
+                    class="btn-dark"
+                    onclick="docEditor.runDocxConversion()"
+                    disabled
+                    style="width:100%;display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.625rem;opacity:0.5;cursor:not-allowed;"
+                >
+                    <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span id="convertWordText">Download as Word</span>
+                </button>
+            </div>
+
+            <!-- Card 2: Select and Edit -->
+            <div style="background-color:var(--dash-card-bg);border-radius:0.5rem;padding:1.25rem;border:var(--dash-border);box-shadow:var(--dash-shadow-soft);">
+                <div style="border-bottom:0.0625rem solid var(--dash-divider);padding-bottom:0.875rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;">
+                    <div style="display:flex;align-items:center;gap:0.5rem;font-weight:900;color:var(--text-dark);font-size:0.875rem;">
+                        <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary-red)"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        2. SELECT AND EDIT
+                    </div>
+                    <button type="button" onclick="docEditor.refreshSelectEdit()" style="background:none;border:none;cursor:pointer;color:var(--dash-muted);" title="Refresh section">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                    </button>
+                </div>
+                <p style="font-size:0.75rem;color:var(--dash-muted);margin-bottom:0.75rem;line-height:1.4;">
+                    Upload an existing <b>.doc</b>, <b>.docx</b>, or <b>.txt</b> file to load it into the advanced text editor on the right.
+                </p>
+                <input
+                    type="file"
+                    id="extractInput"
+                    accept=".doc,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.txt,text/plain"
+                    class="input"
+                    style="cursor:pointer;"
+                    onchange="docEditor.handleFileUpload(event)"
+                />
+                <p id="extractStatus" style="display:none;font-size:0.75rem;color:var(--primary-red);margin-top:0.625rem;">
+                    Parsing document layout...
+                </p>
+                <p id="extractSuccess" style="display:none;font-size:0.75rem;color:var(--dash-muted);margin-top:0.625rem;display:flex;align-items:center;gap:0.375rem;">
+                    <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    <span id="extractSuccessName"></span>
+                </p>
+            </div>
+
+            <!-- Card 3: Word to PDF -->
+            <div style="background-color:var(--dash-card-bg);border-radius:0.5rem;padding:1.25rem;border:var(--dash-border);box-shadow:var(--dash-shadow-soft);">
+                <div style="border-bottom:0.0625rem solid var(--dash-divider);padding-bottom:0.875rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;">
+                    <div style="display:flex;align-items:center;gap:0.5rem;font-weight:900;color:var(--text-dark);font-size:0.875rem;">
+                        <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary-red)"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        3. WORD TO PDF
+                    </div>
+                    <button type="button" onclick="docEditor.promptReset()" style="background:none;border:none;cursor:pointer;color:var(--dash-muted);" title="Clear Editor">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                    </button>
+                </div>
+                <p style="font-size:0.75rem;color:var(--dash-muted);margin-bottom:0.75rem;line-height:1.4;">
+                    Convert the currently edited text content back into a downloadable <b>PDF</b> document.
+                </p>
+
+                <div style="display:flex;gap:0.625rem;flex-direction:column;">
+                    <button
+                        type="button"
+                        id="downloadPdfBtn"
+                        onclick="docEditor.handleDownload()"
+                        class="btn-primary"
+                        style="width:100%;display:flex;align-items:center;justify-content:center;gap:0.5rem;"
+                    >
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Download PDF
+                    </button>
+                    <button
+                        type="button"
+                        onclick="docEditor.promptReset()"
+                        class="btn-dark"
+                        style="width:100%;display:flex;align-items:center;justify-content:center;gap:0.5rem;"
+                    >
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                        Clear Editor
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Advanced TinyMCE Editor -->
+        <div style="background-color:var(--dash-card-bg);border-radius:0.5rem;padding:0;display:flex;flex-direction:column;min-height:40.625rem;border:var(--dash-border);box-shadow:var(--dash-shadow-soft);overflow:hidden;">
+            <div style="padding:0.875rem 1.25rem;border-bottom:0.0625rem solid var(--dash-divider);font-weight:900;color:var(--text-dark);display:flex;justify-content:space-between;align-items:center;">
+                <span style="display:flex;align-items:center;gap:0.5rem;">
+                    <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary-red)"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"></path></svg>
+                    ADVANCED EDITOR
+                </span>
+                <button type="button" onclick="docEditor.promptReset()" style="background:none;border:none;cursor:pointer;color:var(--dash-muted);" title="Clear Editor">
+                    <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                </button>
+            </div>
+
+            <div style="flex:1;background-color:#ffffff;color:#000000;border-bottom-left-radius:0.5rem;border-bottom-right-radius:0.5rem;">
+                <textarea id="tinymceEditor"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Clear Editor Confirmation Modal -->
+<div class="modal" id="confirmClearModal">
+    <div class="modal-backdrop" onclick="docEditor.closeModal()"></div>
+    <div class="modal-panel" style="border:0.125rem solid var(--primary-red);max-width:25rem;">
+        <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.5rem;">
+            <div style="background-color:rgba(255, 59, 48, 0.1);padding:0.75rem;border-radius:50%;color:var(--primary-red);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </div>
+            <div style="flex:1;">
+                <h3 style="margin:0 0 0.5rem 0;font-size:1.25rem;font-weight:900;color:var(--text-dark);">
+                    Clear Editor?
+                </h3>
+                <p style="margin:0;color:var(--text-dark);font-size:0.9375rem;line-height:1.6;font-weight:600;">
+                    Are you sure you want to clear all contents of the editor? This action cannot be undone.
+                </p>
+            </div>
+        </div>
+        <div style="display:flex;gap:0.75rem;justify-content:flex-end;">
+            <button
+                type="button"
+                onclick="docEditor.closeModal()"
+                class="btn-dark"
+                style="padding:0.625rem 1.25rem;"
+            >
+                Cancel
+            </button>
+            <button
+                type="button"
+                onclick="docEditor.confirmReset()"
+                style="padding:0.625rem 1.25rem;background-color:var(--primary-red);color:#fff;border:none;border-radius:0.375rem;font-weight:bold;cursor:pointer;"
+            >
+                Yes, Clear Editor
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+const docEditor = (() => {
+    let fileName = "";
+    let convertToDocxFile = null;
+    let isConverting = false;
+
+    function initTinyMCE() {
+        if (typeof tinymce === 'undefined') {
+            setTimeout(initTinyMCE, 100);
+            return;
+        }
+        tinymce.init({
+            selector: '#tinymceEditor',
+            height: 600,
+            menubar: false,
+            plugins: [
+                'lists', 'link', 'preview', 'searchreplace', 
+                'visualblocks', 'code', 'fullscreen', 'table', 'wordcount'
+            ],
+            toolbar: 'undo redo | blocks | ' +
+                'bold italic underline strikethrough | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'table | link preview fullscreen | removeformat',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:0.875rem; padding: 1.25rem; } table { border-collapse: collapse; width: 100%; } td, th { border: 0.0625rem solid #ddd; padding: 0.5rem; }',
+            branding: false,
+            statusbar: false,
+            promotion: false,
+            license_key: 'gpl'
+        });
+    }
+
+    function setContent(html) {
+        if (tinymce.get('tinymceEditor')) {
+            tinymce.get('tinymceEditor').setContent(html);
+        } else {
+            document.getElementById('tinymceEditor').value = html;
+        }
+    }
+
+    function getContent() {
+        if (tinymce.get('tinymceEditor')) {
+            return tinymce.get('tinymceEditor').getContent();
+        }
+        return document.getElementById('tinymceEditor').value || "";
+    }
+
+    function handlePreConvertUpload(e) {
+        const file = e.target.files[0];
+        const btn = document.getElementById("convertWordBtn");
+        if (file && (file.type === "application/pdf" || file.name.endsWith(".pdf"))) {
+            convertToDocxFile = file;
+            btn.disabled = false;
+            btn.style.opacity = "1";
+            btn.style.cursor = "pointer";
+        } else {
+            alert("Please select a valid PDF file for conversion.");
+            e.target.value = "";
+            convertToDocxFile = null;
+            btn.disabled = true;
+            btn.style.opacity = "0.5";
+            btn.style.cursor = "not-allowed";
+        }
+    }
+
+    async function runDocxConversion() {
+        if (!convertToDocxFile || isConverting) return;
+        isConverting = true;
+        const btnText = document.getElementById("convertWordText");
+        btnText.textContent = "Converting...";
+
+        try {
+            const formData = new FormData();
+            formData.append("file", convertToDocxFile);
+
+            const resp = await fetch("/api/pdf-to-word", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (!resp.ok) {
+                const errData = await resp.json().catch(() => ({}));
+                throw new Error(errData.error || errData.detail || "Conversion failed on server.");
+            }
+
+            const blob = await resp.blob();
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = convertToDocxFile.name.replace(".pdf", "_converted.docx");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            refreshPdfToWord();
+        } catch (err) {
+            console.error(err);
+            alert("Error converting PDF: " + (err.message || err));
+        } finally {
+            isConverting = false;
+            btnText.textContent = "Download as Word";
+        }
+    }
+
+    function refreshPdfToWord() {
+        convertToDocxFile = null;
+        document.getElementById("preConvertInput").value = "";
+        const btn = document.getElementById("convertWordBtn");
+        btn.disabled = true;
+        btn.style.opacity = "0.5";
+        btn.style.cursor = "not-allowed";
+    }
+
+    async function handleFileUpload(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const isDocx = file.name.endsWith(".docx") || file.name.endsWith(".doc");
+        const isTxt = file.type === "text/plain" || file.name.endsWith(".txt");
+
+        if (isDocx || isTxt) {
+            fileName = file.name;
+            const statusEl = document.getElementById("extractStatus");
+            const successEl = document.getElementById("extractSuccess");
+            const successName = document.getElementById("extractSuccessName");
+            statusEl.style.display = "block";
+            successEl.style.display = "none";
+
+            try {
+                if (isTxt) {
+                    const text = await file.text();
+                    const htmlText = text.split("\n").map(l => `<p style="margin:0;margin-bottom:0.5em;line-height:1.5;">${l}</p>`).join("");
+                    setContent(htmlText);
+                } else {
+                    const arrayBuffer = await file.arrayBuffer();
+                    if (window.mammoth) {
+                        const result = await window.mammoth.convertToHtml({ arrayBuffer });
+                        setContent(result.value);
+                    } else {
+                        throw new Error("Mammoth library not loaded.");
+                    }
+                }
+                statusEl.style.display = "none";
+                successEl.style.display = "flex";
+                successName.textContent = `${file.name} extracted`;
+            } catch (err) {
+                console.error("Extraction error:", err);
+                statusEl.style.display = "none";
+                alert("Failed to extract text from file: " + (err.message || err));
+            }
+        } else {
+            alert("Please upload a .doc, .docx, or .txt document only.");
+            e.target.value = "";
+        }
+    }
+
+    function refreshSelectEdit() {
+        fileName = "";
+        document.getElementById("extractInput").value = "";
+        document.getElementById("extractStatus").style.display = "none";
+        document.getElementById("extractSuccess").style.display = "none";
+    }
+
+    function handleDownload() {
+        const content = getContent();
+        if (!content || !content.trim()) {
+            alert("No content to download!");
+            return;
+        }
+
+        const element = document.createElement("div");
+        element.innerHTML = content;
+        element.style.padding = "1.875rem";
+        element.style.fontFamily = "Arial, sans-serif";
+        element.style.fontSize = "0.875rem";
+        element.style.lineHeight = "1.6";
+        element.style.color = "#000000";
+        element.style.backgroundColor = "#ffffff";
+
+        const style = document.createElement("style");
+        style.innerHTML = `
+            table { border-collapse: collapse; width: 100%; margin-bottom: 1em; border: 0.0625rem solid #000000; }
+            th, td { border: 0.0625rem solid #000000; padding: 0.5rem; }
+            p { margin-bottom: 1em; }
+            h1, h2, h3, h4, h5, h6 { margin-top: 1.2em; margin-bottom: 0.5em; }
+            ul, ol { margin-bottom: 1em; margin-left: 1.5em; padding-left: 1em; display: block; }
+            ul { list-style-type: disc !important; }
+            ol { list-style-type: decimal !important; }
+            li { display: list-item; margin-bottom: 0.5em; }
+        `;
+        element.appendChild(style);
+
+        const baseFileName = fileName ? fileName.replace(/\.[^/.]+$/, "") : "document";
+        const opt = {
+            margin: 10,
+            filename: `edited_${baseFileName}.pdf`,
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+        };
+
+        if (window.html2pdf) {
+            window.html2pdf().set(opt).from(element).save();
+        } else {
+            alert("html2pdf library not available.");
+        }
+    }
+
+    function promptReset() {
+        document.getElementById("confirmClearModal").classList.add("open");
+    }
+
+    function closeModal() {
+        document.getElementById("confirmClearModal").classList.remove("open");
+    }
+
+    function confirmReset() {
+        setContent("");
+        refreshSelectEdit();
+        closeModal();
+    }
+
+    return {
+        initTinyMCE,
+        handlePreConvertUpload,
+        runDocxConversion,
+        refreshPdfToWord,
+        handleFileUpload,
+        refreshSelectEdit,
+        handleDownload,
+        promptReset,
+        closeModal,
+        confirmReset
+    };
+})();
+
+document.addEventListener("DOMContentLoaded", () => docEditor.initTinyMCE());
+</script>
+{% endblock %}

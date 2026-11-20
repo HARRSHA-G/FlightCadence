@@ -1,0 +1,206 @@
+{% extends "app_base.html" %}
+
+{% block title %}Nav Log Scraper | FLIGHT CADENCE{% endblock %}
+
+{% block content %}
+<div class="fade-in" style="display:flex;flex-direction:column;gap:1.5rem;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:0.5rem;flex-wrap:wrap;gap:1rem;">
+        <div>
+            <h2 style="font-size:1.5rem;font-weight:900;color:var(--text-dark);margin-bottom:0.25rem;">
+                Nav Log Scraper
+            </h2>
+            <p style="color:var(--dash-muted);margin:0;font-size:0.875rem;">
+                Integrated web scraping tools and native form data parser.
+            </p>
+        </div>
+        <div style="display:flex;gap:0.625rem;">
+            <button 
+                type="button"
+                class="btn-dark" 
+                style="padding:0.625rem 1rem;font-size:0.75rem;display:flex;align-items:center;gap:0.5rem;"
+                onclick="window.open('https://dev.pravahya.com/public/scrape/form', '_blank')"
+            >
+                <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                Open Pravahya External Form
+            </button>
+        </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;background-color:var(--dash-card-bg);border:var(--dash-border);border-radius:0.75rem;overflow:hidden;box-shadow:var(--dash-shadow-soft);min-height:800px;">
+        <!-- Tabs Header -->
+        <div style="display:grid;grid-template-columns:repeat(2, 1fr);background-color:var(--dash-input-bg);border-bottom:0.0625rem solid var(--dash-divider);">
+            <div
+                id="tabBtnEmbedded"
+                onclick="switchScrapeTab('embedded')"
+                style="padding:1rem;text-align:center;cursor:pointer;transition:all 0.2s;border-bottom:0.1875rem solid var(--primary-blue);background-color:rgba(0, 122, 255, 0.05);"
+            >
+                <h4 style="margin:0;font-size:0.9375rem;font-weight:900;color:var(--primary-blue);display:flex;align-items:center;justify-content:center;gap:0.5rem;">
+                    <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="10" y1="4" x2="10" y2="20"></line></svg>
+                    Live Web Scraper
+                </h4>
+            </div>
+
+            <div
+                id="tabBtnNative"
+                onclick="switchScrapeTab('native')"
+                style="padding:1rem;text-align:center;cursor:pointer;transition:all 0.2s;border-bottom:0.1875rem solid transparent;background-color:transparent;"
+            >
+                <h4 style="margin:0;font-size:0.9375rem;font-weight:600;color:var(--text-dark);display:flex;align-items:center;justify-content:center;gap:0.5rem;">
+                    <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5V19A9 3 0 0 0 21 19V5"></path><path d="M3 12A9 3 0 0 0 21 12"></path></svg>
+                    Native Parsing Form
+                </h4>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div style="flex:1;position:relative;display:flex;flex-direction:column;">
+            <!-- Embedded Tab -->
+            <div id="scrapeTabEmbedded" style="flex:1;position:relative;display:flex;flex-direction:column;">
+                <iframe 
+                    src="https://dev.pravahya.com/public/scrape/form" 
+                    title="Pravahya Scraper Live"
+                    style="flex:1;width:100%;height:100%;min-height:800px;border:none;background-color:#fff;"
+                    sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+                ></iframe>
+            </div>
+
+            <!-- Native Tab -->
+            <div id="scrapeTabNative" style="flex:1;padding:2rem;display:none;flex-direction:column;">
+                <div style="margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem;">
+                    <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary-red)"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5V19A9 3 0 0 0 21 19V5"></path><path d="M3 12A9 3 0 0 0 21 12"></path></svg>
+                    <h3 style="font-size:1.25rem;font-weight:800;margin:0;color:var(--text-dark)">Native Parsing Form</h3>
+                    <span style="font-size:0.625rem;font-weight:bold;background-color:rgba(255,59,48,0.1);color:var(--primary-red);padding:0.25rem 0.5rem;border-radius:1rem;margin-left:auto;text-transform:uppercase;">
+                        Future Purpose Ready
+                    </span>
+                </div>
+
+                <form id="nativeParseForm" onsubmit="handleNativeProcess(event)" style="display:flex;flex-direction:column;flex:1;gap:1.25rem;">
+                    <div style="padding-bottom:0.75rem;border-bottom:1px dotted var(--dash-border);margin-bottom:0.5rem;">
+                        <h3 style="font-size:1.125rem;font-weight:normal;color:var(--text-dark);margin:0">Fill Below Form To Generate PDF</h3>
+                    </div>
+
+                    <div class="responsive-grid grid-cols-3">
+                        <div class="field">
+                            <label class="field-label">Call Sign <span style="color:var(--primary-red)">*</span></label>
+                            <input class="input" style="text-align:center" placeholder="Enter call sign..." required>
+                        </div>
+                        <div class="field">
+                            <label class="field-label">Pilot Name <span style="color:var(--primary-red)">*</span></label>
+                            <input class="input" style="text-align:center" placeholder="Enter pilot name..." required>
+                        </div>
+                        <div class="field">
+                            <label class="field-label">Co Pilot Name <span style="color:var(--primary-red)">*</span></label>
+                            <input class="input" style="text-align:center" placeholder="Enter co-pilot name..." required>
+                        </div>
+                    </div>
+
+                    <div class="responsive-grid grid-cols-2">
+                        <div class="field">
+                            <label class="field-label">Main URL <span style="color:var(--primary-red)">*</span></label>
+                            <input class="input" style="text-align:center" placeholder="Enter main URL..." required>
+                        </div>
+                        <div class="field">
+                            <label class="field-label">1st Alternate URL <span style="color:var(--primary-red)">*</span></label>
+                            <input class="input" style="text-align:center" placeholder="Enter 1st alternate URL..." required>
+                        </div>
+                    </div>
+
+                    <div class="responsive-grid grid-cols-2">
+                        <div class="field">
+                            <label class="field-label">2nd Alternate URL <span style="color:var(--primary-red)">*</span></label>
+                            <input class="input" style="text-align:center" placeholder="Enter 2nd alternate URL..." required>
+                        </div>
+                        <div class="field">
+                            <label class="field-label">Max. Trip Fuel <span style="color:var(--primary-red)">*</span></label>
+                            <input class="input" style="text-align:center" placeholder="Enter max trip fuel..." required>
+                        </div>
+                    </div>
+
+                    <div class="responsive-grid grid-cols-4">
+                        <div class="field">
+                            <label class="field-label">Pax Weight <span style="color:var(--primary-red)">*</span></label>
+                            <input class="input" style="text-align:center" placeholder="e.g. 1200" required>
+                        </div>
+                        <div class="field">
+                            <label class="field-label">Dep <span style="color:var(--primary-red)">*</span></label>
+                            <input class="input" style="text-align:center" placeholder="e.g. KJFK" required>
+                        </div>
+                        <div class="field">
+                            <label class="field-label">Dest <span style="color:var(--primary-red)">*</span></label>
+                            <input class="input" style="text-align:center" placeholder="e.g. KLAX" required>
+                        </div>
+                        <div class="field">
+                            <label class="field-label">Endurance Time <span style="color:var(--primary-red)">*</span></label>
+                            <input class="input" style="text-align:center" placeholder="HH:MM" required>
+                        </div>
+                    </div>
+
+                    <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:1rem;">
+                        <label style="font-size:1rem;color:var(--text-dark);font-weight:normal;">Short FPL <span style="color:var(--primary-red)">*</span></label>
+                        <div style="border:1px solid var(--dash-border);border-radius:0.375rem;overflow:hidden;">
+                            <div style="padding:0.75rem 1rem;border-bottom:1px solid var(--dash-border);background-color:var(--dash-card-bg);display:flex;gap:1.25rem;align-items:center;font-size:0.875rem;">
+                                <span style="color:var(--text-dark);font-weight:bold;">Normal ▾</span>
+                                <div style="display:flex;gap:1rem;align-items:center;color:var(--text-dark);">
+                                    <span style="font-weight:900;cursor:pointer;">B</span> 
+                                    <span style="font-style:italic;font-weight:bold;cursor:pointer;">I</span> 
+                                    <span style="text-decoration:underline;font-weight:bold;cursor:pointer;">U</span>
+                                </div>
+                            </div>
+                            <textarea 
+                                id="shortFplText"
+                                placeholder="Paste your Nav Log format here..."
+                                style="width:100%;min-height:150px;padding:1.25rem;background-color:var(--dash-input-bg);color:var(--text-dark);border:none;outline:none;resize:vertical;font-size:0.875rem;"
+                                required
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:0.5rem;">
+                        <button type="submit" style="background-color:#FF5A5A;color:white;border:none;padding:0.75rem 1.75rem;border-radius:0.375rem;font-size:0.875rem;font-weight:700;cursor:pointer;transition:0.2s;letter-spacing:0.05rem;">
+                            PROCESS
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function switchScrapeTab(tab) {
+    const embeddedBtn = document.getElementById("tabBtnEmbedded");
+    const nativeBtn = document.getElementById("tabBtnNative");
+    const embeddedView = document.getElementById("scrapeTabEmbedded");
+    const nativeView = document.getElementById("scrapeTabNative");
+
+    if (tab === "embedded") {
+        embeddedView.style.display = "flex";
+        nativeView.style.display = "none";
+        embeddedBtn.style.borderBottom = "0.1875rem solid var(--primary-blue)";
+        embeddedBtn.style.backgroundColor = "rgba(0, 122, 255, 0.05)";
+        embeddedBtn.querySelector("h4").style.color = "var(--primary-blue)";
+        embeddedBtn.querySelector("h4").style.fontWeight = "900";
+        nativeBtn.style.borderBottom = "0.1875rem solid transparent";
+        nativeBtn.style.backgroundColor = "transparent";
+        nativeBtn.querySelector("h4").style.color = "var(--text-dark)";
+        nativeBtn.querySelector("h4").style.fontWeight = "600";
+    } else {
+        embeddedView.style.display = "none";
+        nativeView.style.display = "flex";
+        nativeBtn.style.borderBottom = "0.1875rem solid var(--primary-red)";
+        nativeBtn.style.backgroundColor = "rgba(255, 59, 48, 0.05)";
+        nativeBtn.querySelector("h4").style.color = "var(--primary-red)";
+        nativeBtn.querySelector("h4").style.fontWeight = "900";
+        embeddedBtn.style.borderBottom = "0.1875rem solid transparent";
+        embeddedBtn.style.backgroundColor = "transparent";
+        embeddedBtn.querySelector("h4").style.color = "var(--text-dark)";
+        embeddedBtn.querySelector("h4").style.fontWeight = "600";
+    }
+}
+
+function handleNativeProcess(e) {
+    e.preventDefault();
+    alert("Nav Log processing logic will be connected here in the future!");
+}
+</script>
+{% endblock %}

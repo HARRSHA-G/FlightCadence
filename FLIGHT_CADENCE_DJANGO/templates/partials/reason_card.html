@@ -1,0 +1,8 @@
+{% load ui %}
+<div class="premium-card reason-card" style="padding:2.5rem;border:{% if forloop.first == False and forloop.counter == 2 %}0.0625rem solid var(--primary-red){% else %}var(--glass-border){% endif %};">
+    <div style="color:var(--primary-red);margin-bottom:1.5rem;">
+        {% icon icon_name 24 %}
+    </div>
+    <h4 style="font-size:1.375rem;font-weight:800;margin-bottom:1rem">{{ title }}</h4>
+    <p style="color:var(--text-muted);font-size:0.9375rem;line-height:1.7">{{ desc }}</p>
+</div>
